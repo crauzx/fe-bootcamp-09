@@ -35,6 +35,23 @@ a {
   text-decoration: none;
 }
 
+.menu {
+  display: flex;
+  height: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 16px;
+}
+
+.menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
