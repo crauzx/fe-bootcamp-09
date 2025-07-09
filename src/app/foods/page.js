@@ -13,7 +13,7 @@ export default function FoodsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const db = getDatabase();
+      const { db } = getDatabase();
       const foodsCol = collection(db, "foods");
       const foodsSnapshot = await getDocs(foodsCol);
       const foodList = foodsSnapshot.docs.map((doc) => ({
