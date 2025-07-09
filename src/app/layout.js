@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Menu from "@/components/menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,24 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <nav className="menu">
-          <div className="list-menu-item">
-            <Link href="/" className="menu-item">
-              Home
-            </Link>
-            <Link href="/users" className="menu-item">
-              Users
-            </Link>
-            <Link href="/foods" className="menu-item">
-              Foods
-            </Link>
-          </div>
-          <div className="list-menu-item">
-            <Link href="/login" className="menu-item">
-              Login
-            </Link>
-          </div>
-        </nav>
+        <Menu />
         {children}
       </body>
     </html>
