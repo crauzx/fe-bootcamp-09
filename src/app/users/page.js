@@ -1,8 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import getConfig from "@/firebase/config";
-
 import UserListView from "./user-list-view";
-import { collection, getDocs } from "firebase/firestore";
 
 export default async function UsersPage() {
   const { db } = getConfig();
