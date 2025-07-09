@@ -22,15 +22,22 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <nav className="menu">
-          <Link href="/" className="menu-item">
-            Home
-          </Link>
-          <Link href="/users" className="menu-item">
-            Users
-          </Link>
-          <Link href="/foods" className="menu-item">
-            Foods
-          </Link>
+          <div className="list-menu-item">
+            <Link href="/" className="menu-item">
+              Home
+            </Link>
+            <Link href="/users" className="menu-item">
+              Users
+            </Link>
+            <Link href="/foods" className="menu-item">
+              Foods
+            </Link>
+          </div>
+          <div className="list-menu-item">
+            <Link href="/login" className="menu-item">
+              Login
+            </Link>
+          </div>
         </nav>
         {children}
       </body>
