@@ -1,12 +1,39 @@
-'use client';
+"use client";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import getDatabase from "@/firebase/config";
+
 import styles from "./page.module.css";
 
+import Loading from "@/components/loading";
+
 export default function FoodsPage() {
+  const [loading, setLoading] = useState(true);
+  const [foodList, setFoodList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const db = getDatabase();
+      const foodsCol = collection(db, "foods");
+      const foodsSnapshot = await getDocs(foodsCol);
+      const foodList = foodsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setFoodList(foodList);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className={styles.page}>
-      <button className={styles.addButton}>
-        Add Food
-      </button>
+      <button className={styles.addButton}>Add Food</button>
       <h3 className={styles.title}>Foods List</h3>
       <table className={styles.table}>
         <thead>
@@ -17,21 +44,13 @@ export default function FoodsPage() {
           </tr>
         </thead>
         <tbody>
-          <tr className={styles.row}>
-            <td className={styles.cell}>1</td>
-            <td className={styles.cell}>Food 1</td>
-            <td className={styles.cell}>Rp 10</td>
-          </tr>
-          <tr className={styles.row}>
-            <td className={styles.cell}>2</td>
-            <td className={styles.cell}>Food 2</td>
-            <td className={styles.cell}>Rp 15</td>
-          </tr>
-          <tr className={styles.row}>
-            <td className={styles.cell}>3</td>
-            <td className={styles.cell}>Food 3</td>
-            <td className={styles.cell}>Rp 20</td>
-          </tr>
+          {foodList.map((food) => (
+            <tr key={food.id} className={styles.row}>
+              <td className={styles.cell}>{food.id}</td>
+              <td className={styles.cell}>{food.name}</td>
+              <td className={styles.cell}>Rp {food.price}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

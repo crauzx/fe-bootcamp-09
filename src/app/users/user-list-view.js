@@ -1,12 +1,18 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import styles from "./user-list-view.module.css";
 
 import AddUserModal from "@/components/add-user-modal";
 
-export default function UserListView({ users }) {
+export default function UserListView({ users = [] }) {
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+
+  const viewUserDetail = (userId) => {
+    router.push(`/users/${userId}`);
+  };
 
   const handleAddUser = () => {
     setShowModal(true);
@@ -28,33 +34,22 @@ export default function UserListView({ users }) {
           </tr>
         </thead>
         <tbody>
-          <tr className={styles.row}>
-            <td className={styles.cell}>1</td>
-            <td className={styles.cell}>User 1</td>
-            <td className={styles.cell}>user1@example.com</td>
-            <td className={`${styles.cell} ${styles.actions}`}>
-              <button className={styles.button}>View Detail</button>
-              <button className={styles.button}>Delete</button>
-            </td>
-          </tr>
-          <tr className={styles.row}>
-            <td className={styles.cell}>2</td>
-            <td className={styles.cell}>User 2</td>
-            <td className={styles.cell}>user2@example.com</td>
-            <td className={`${styles.cell} ${styles.actions}`}>
-              <button className={styles.button}>View Detail</button>
-              <button className={styles.button}>Delete</button>
-            </td>
-          </tr>
-          <tr className={styles.row}>
-            <td className={styles.cell}>3</td>
-            <td className={styles.cell}>User 3</td>
-            <td className={styles.cell}>user3@example.com</td>
-            <td className={`${styles.cell} ${styles.actions}`}>
-              <button className={styles.button}>View Detail</button>
-              <button className={styles.button}>Delete</button>
-            </td>
-          </tr>
+          {users.map((user) => (
+            <tr className={styles.row} key={user.id}>
+              <td className={styles.cell}>{user.id}</td>
+              <td className={styles.cell}>{user.name}</td>
+              <td className={styles.cell}>{user.email}</td>
+              <td className={`${styles.cell} ${styles.actions}`}>
+                <button
+                  className={styles.button}
+                  onClick={() => viewUserDetail(user.id)}
+                >
+                  View Detail
+                </button>
+                <button className={styles.button}>Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
