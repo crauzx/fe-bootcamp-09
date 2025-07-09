@@ -1,18 +1,17 @@
-import getDatabase from "@/firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+import getConfig from "@/firebase/config";
+
 import UserListView from "./user-list-view";
 import { collection, getDocs } from "firebase/firestore";
 
 export default async function UsersPage() {
-  const db = getDatabase();
-  const userCol = collection(db, "users");
-  const userSnapshot = await getDocs(userCol);
-  const userList = userSnapshot.docs.map((doc) => {
-    console.log(doc.id);
-    console.log(doc.data());
-    return {
-      id: doc.id,
-      ...doc.data(),
-    };
-  });
+  const { db } = getConfig();
+  const usersCol = collection(db, "users");
+  const usersSnapshot = await getDocs(usersCol);
+  const userList = usersSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
   return <UserListView users={userList} />;
 }

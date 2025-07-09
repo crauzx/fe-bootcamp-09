@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import styles from "./page.module.css";
-import getDatabase from "@/firebase/config";
 import { collection, getDocs } from "firebase/firestore";
+import getConfig from "@/firebase/config";
+
+import styles from "./page.module.css";
+
 import Loading from "@/components/loading";
 
 export default function FoodsPage() {
@@ -11,7 +13,7 @@ export default function FoodsPage() {
 
   useEffect(() => {
     const fetchFoods = async () => {
-      const db = getDatabase();
+      const { db } = getConfig();
       const foodCol = collection(db, "foods");
       const foodSnapshot = await getDocs(foodCol);
       const foodList = foodSnapshot.docs.map((doc) => ({
@@ -44,7 +46,7 @@ export default function FoodsPage() {
         </thead>
         <tbody>
           {foodList.map((food) => (
-            <tr className={styles.row} key={food.id}>
+            <tr key={food.id} className={styles.row}>
               <td className={styles.cell}>{food.id}</td>
               <td className={styles.cell}>{food.name}</td>
               <td className={styles.cell}>Rp {food.price}</td>
