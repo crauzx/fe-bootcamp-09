@@ -2,7 +2,6 @@ import { doc, getDoc } from "firebase/firestore";
 import getConfig from "@/firebase/config";
 
 import UserDetailView from "./user-detail-view";
-import { doc, getDoc } from "firebase/firestore";
 
 export default async function UserDetailPage({ params }) {
   const { slug } = params;
