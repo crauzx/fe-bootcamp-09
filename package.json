@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "firebase": "^11.10.0",
@@ -15,8 +16,16 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
     "@eslint/eslintrc": "^3",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "babel-jest": "^30.0.4",
     "eslint": "^9",
-    "eslint-config-next": "15.3.4"
+    "eslint-config-next": "15.3.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4"
   }
 }
