@@ -17,8 +17,6 @@ export function useAuthGuard() {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log(uid)
-            console.log(docSnap.data())
           setRole(docSnap.data().role);
         }
       } else {

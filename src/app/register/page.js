@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import getConfig from "@/firebase/config";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { Modal } from "@/components/modal";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -65,12 +66,13 @@ export default function RegisterPage() {
             age: form.age,
             role: "user",
           });
-          router.push("/login");
+          router.push("/");
         })
         .catch((error) => {
-          const errorCode = error.code;
           const errorMessage = error.message;
-          console.log(error);
+          setErrors({
+            register: errorMessage || "Registration failed. Please try again.",
+          });
         });
     }
   };
@@ -147,6 +149,13 @@ export default function RegisterPage() {
           Register
         </button>
       </div>
+      {errors.register && (
+        <Modal
+          title="Registration Error"
+          message={errors.register}
+          onClose={() => setErrors({})}
+        />
+      )}
     </div>
   );
 }

@@ -6,8 +6,10 @@ import getConfig from "@/firebase/config";
 import styles from "./page.module.css";
 
 import Loading from "@/components/loading";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 export default function FoodsPage() {
+  const { role } = useAuthGuard();
   const [foodList, setFoodList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +36,9 @@ export default function FoodsPage() {
 
   return (
     <div className={styles.page}>
-      <button className={styles.addButton}>Add Food</button>
+      { role === "admin" && (
+        <button className={styles.addButton}>Add Food</button>
+      )}
       <h3 className={styles.title}>Foods List</h3>
       <table className={styles.table}>
         <thead>

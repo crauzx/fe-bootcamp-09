@@ -5,6 +5,7 @@ import { useState } from "react";
 import getConfig from "@/firebase/config";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { Modal } from "@/components/modal";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
     setForm({
@@ -28,8 +30,10 @@ export default function LoginPage() {
         router.push("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
+        setErrors({
+          login: errorMessage || "Login failed. Please try again.",
+        });
       });
   };
 
@@ -65,6 +69,13 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
+      {errors.login && (
+        <Modal
+          title="Login Error"
+          message={errors.login}
+          onClose={() => setErrors({})}
+        />
+      )}
     </div>
   );
 }
