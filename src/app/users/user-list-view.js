@@ -15,8 +15,10 @@ export default function UserListView({ users }) {
   };
 
   const goToDetail = (userId) => {
-    router.push(`/users/${userId}`)
-  }
+    router.push(`/users/${userId}`);
+  };
+
+  const handleDeleteUser = (userId) => {};
 
   return (
     <div className={styles.page}>
@@ -40,8 +42,20 @@ export default function UserListView({ users }) {
               <td className={styles.cell}>{user.name}</td>
               <td className={styles.cell}>{user.email}</td>
               <td className={`${styles.cell} ${styles.actions}`}>
-                <button className={styles.button} onClick={() => goToDetail(user.id)}>View Detail</button>
-                <button className={styles.button}>Delete</button>
+                <button
+                  className={styles.button}
+                  onClick={() => goToDetail(user.id)}
+                >
+                  View Detail
+                </button>
+                {user.role !== "admin" && (
+                  <button
+                    className={styles.button}
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    Delete
+                  </button>
+                )}
               </td>
             </tr>
           ))}
