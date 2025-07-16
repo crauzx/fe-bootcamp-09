@@ -3,12 +3,11 @@ import { addDoc, collection } from "firebase/firestore";
 import getConfig from "@/firebase/config";
 import modalStyles from "./css/add-modal.module.css";
 
-export default function AddUserModal({ setShowModal }) {
+export default function AddFoodModal({ setShowModal }) {
   const { db } = getConfig();
   const [form, setForm] = useState({
     name: "",
-    email: "",
-    age: 0,
+    price: 0,
   });
 
   const handleChange = (e) => {
@@ -20,10 +19,9 @@ export default function AddUserModal({ setShowModal }) {
   };
 
   const handleSubmit = async () => {
-    await addDoc(collection(db, "users"), {
+    await addDoc(collection(db, "foods"), {
       name: form.name,
-      email: form.email,
-      age: parseFloat(form.age),
+      price: parseFloat(form.price),
     });
     setShowModal(false);
   };
@@ -38,10 +36,10 @@ export default function AddUserModal({ setShowModal }) {
         >
           &times;
         </button>
-        <h2 className={modalStyles.title}>Add User</h2>
+        <h2 className={modalStyles.title}>Add Food</h2>
         <div className={modalStyles.form}>
           <label>
-            Name:
+            Food Name:
             <input
               type="text"
               name="name"
@@ -51,23 +49,13 @@ export default function AddUserModal({ setShowModal }) {
             />
           </label>
           <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Age:
+            Food Price:
             <input
               type="number"
-              name="age"
-              value={form.age}
+              name="price"
+              value={form.price}
               onChange={handleChange}
-              min="0"
+              min="1"
               required
             />
           </label>
