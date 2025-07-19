@@ -1,10 +1,12 @@
 "use client";
 import getConfig from "@/firebase/config";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import useOnlineStatus from "@/hooks/useOnlineStatus";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 
 export default function Menu() {
+  const isOnline = useOnlineStatus();
   const { role } = useAuthGuard();
   const { auth } = getConfig();
   const isLoggedIn = role === "admin" || role === "user";
@@ -43,6 +45,9 @@ export default function Menu() {
             Logout
           </div>
         )}
+        <div className="menu-item">
+          Status: {isOnline ? "Online" : "Offline"}
+        </div>
       </div>
     </nav>
   );

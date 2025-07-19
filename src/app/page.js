@@ -1,7 +1,10 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { useTheme } from "./context/ThemeContext";
 
 export default function Home() {
+  const { theme, toggleTheme } = useTheme();
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -44,6 +47,9 @@ export default function Home() {
           >
             Read our docs
           </a>
+          <button onClick={toggleTheme}>
+            Switch theme to {theme === "light" ? "dark" : "light"}
+          </button>
         </div>
       </main>
       <footer className={styles.footer}>

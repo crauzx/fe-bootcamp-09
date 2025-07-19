@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import getConfig from "@/firebase/config";
 
 import styles from "./page.module.css";
@@ -8,28 +8,29 @@ import styles from "./page.module.css";
 import Loading from "@/components/loading";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import AddFoodModal from "@/components/add-food-modal";
+import useOnlineStatus from "@/hooks/useOnlineStatus";
 
 export default function FoodsPage() {
   const { role } = useAuthGuard();
   const [foodList, setFoodList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const isOnline = useOnlineStatus();
 
   useEffect(() => {
-    const fetchFoods = async () => {
-      const { db } = getConfig();
-      const foodCol = collection(db, "foods");
-      const foodSnapshot = await getDocs(foodCol);
-      const foodList = foodSnapshot.docs.map((doc) => ({
+    const { db } = getConfig();
+    const foodCol = collection(db, "foods");
+
+    const unsub = onSnapshot(foodCol, (snapshot) => {
+      const items = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
-      setFoodList(foodList);
+      setFoodList(items);
       setLoading(false);
-    };
+    });
 
-    fetchFoods();
+    return () => unsub();
   }, []);
 
   const handleAddFood = () => {
@@ -47,6 +48,7 @@ export default function FoodsPage() {
           Add Food
         </button>
       )}
+      Status: {isOnline ? "Online" : "Offline"}
       <h3 className={styles.title}>Foods List</h3>
       <table className={styles.table}>
         <thead>
