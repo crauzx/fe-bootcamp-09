@@ -5,7 +5,13 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #fafbfc;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px;
+  }
 }
 
 .title {
@@ -15,15 +21,14 @@
   color: #333;
 }
 
-.form {
+.form,
+.formGroup {
   display: flex;
   flex-direction: column;
 }
 
 .formGroup {
   margin-bottom: 18px;
-  display: flex;
-  flex-direction: column;
 }
 
 .formGroup label {
