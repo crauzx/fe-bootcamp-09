@@ -30,6 +30,7 @@ export default function UserListView({ users }) {
         <thead>
           <tr>
             <th className={styles.header}>ID</th>
+            <th className={styles.header}>Profile Picture</th>
             <th className={styles.header}>Name</th>
             <th className={styles.header}>Email</th>
             <th className={styles.header}>Actions</th>
@@ -39,6 +40,13 @@ export default function UserListView({ users }) {
           {users.map((user) => (
             <tr className={styles.row} key={user.id}>
               <td className={styles.cell}>{user.id}</td>
+              <td className={styles.cell}>
+                <img
+                  src={user.profilePictureByte}
+                  alt={`${user.name}'s profile`}
+                  className={styles.profilePicture}
+                />
+              </td>
               <td className={styles.cell}>{user.name}</td>
               <td className={styles.cell}>{user.email}</td>
               <td className={`${styles.cell} ${styles.actions}`}>

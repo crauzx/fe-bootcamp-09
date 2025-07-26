@@ -15,17 +15,45 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     age: "",
+    profilePictureByte: null,
   });
   const [errors, setErrors] = useState({});
 
-  const handleChange = (event) => {
+  const toBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const handleChange = async (event) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    const name = event.target.name;
+    const value = event.target.value;
     setForm({
       ...form,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
     setErrors({
       ...errors,
-      [event.target.name]: "",
+      [name]: "",
+    });
+    if (!file) {
+      return;
+    }
+    const base64String = await toBase64(file);
+    setForm({
+      ...form,
+      [name]: base64String,
     });
   };
 
@@ -52,6 +80,7 @@ export default function RegisterPage() {
 
   const handleRegister = () => {
     const validateErrors = validate();
+    console.log("form: ", form);
     if (Object.keys(validateErrors).length > 0) {
       setErrors(validateErrors);
     } else {
@@ -65,6 +94,7 @@ export default function RegisterPage() {
             email: user.email,
             age: form.age,
             role: "user",
+            profilePictureByte: form.profilePictureByte,
           });
           router.push("/");
         })
@@ -139,6 +169,21 @@ export default function RegisterPage() {
           />
           {errors.age && (
             <div className={styles.errorMessage}>{errors.age}</div>
+          )}
+        </div>
+        <div className={styles.formGroup}>
+          <label>Profile picture:</label>
+          <input
+            type="file"
+            name="profilePictureByte"
+            accept="image/*"
+            onChange={handleChange}
+            className={styles.inputField}
+          />
+          {errors.profilePictureByte && (
+            <div className={styles.errorMessage}>
+              {errors.profilePictureByte}
+            </div>
           )}
         </div>
         <button
